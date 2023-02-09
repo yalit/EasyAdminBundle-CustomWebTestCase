@@ -12,8 +12,8 @@ a specific custom function test class has been provided : `AbstractCrudTestCase`
 Functional Test Case Example
 ------------------------
 
-Suppose you have a `Dashboard`_ named `App\\Controller\\Admin\\AppDashboardController` and
-an `Category Controller`_ named `App\\Controller\\Admin\\CategoryCrudController`. Here's an
+Suppose you have a `Dashboard`_ named :code:`App\\Controller\\Admin\\AppDashboardController` and
+an `Category Controller`_ named :code:`App\\Controller\\Admin\\CategoryCrudController`. Here's an
 example of a function test class for that Controller
 
 .. code-block:: php
@@ -47,3 +47,5 @@ example of a function test class for that Controller
     }
 
 .. _`Symfony functional testing workflow`: https://symfony.com/doc/current/testing.html#application-tests
+.. _Dashboard: https://symfony.com/bundles/EasyAdminBundle/4.x/dashboards.html
+.. _Category Controller: https://symfony.com/bundles/EasyAdminBundle/4.x/crud.html
