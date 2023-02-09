@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EasyCorp\Bundle\EasyAdminBundle\Test\TestCase;
+namespace EasyCorp\Bundle\EasyAdminBundle\Test;
 
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
