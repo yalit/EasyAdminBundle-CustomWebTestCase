@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace EasyCorp\Bundle\EasyAdminBundle\Test\Trait;
 
-//TODO : implement TODOs
+// TODO : implement TODOs
+use function PHPUnit\Framework\assertCount;
+
 trait CrudTestAsserts
 {
     protected static function assertIndexFullEntityCount(int $expectedIndexFullEntityCount, string $message = ''): void
@@ -58,14 +60,26 @@ trait CrudTestAsserts
         static::assertEquals((string) $expectedIndexPagesCount, $lastNumberedPageItem->filter('a')->text(), $message);
     }
 
-    protected function assertActionExistsForEntity(string $action, string|int $entityId): void
+    protected function assertIndexEntityActionExistsForEntity(string $action, string|int $entityId, string $message = ''): void
     {
-        // TODO : to implement
+        $message = '' === $message ? sprintf('The action %s has not been found for entity id %s', $action, (string) $entityId) : $message;
+
+        $entityRow = $this->client->getCrawler()->filter(sprintf('tbody tr[data-id=%s]', (string) $entityId));
+        self::assertCount(1, $entityRow, sprintf('The entity %s is not existing in the table', (string) $entityId));
+
+        $action = $entityRow->first()->filter(sprintf('.action-%s', $action));
+        assertCount(1, $action, $message);
     }
 
-    protected function assertNotActionExistsForEntity(string $action, string|int $entityId): void
+    protected function assertNotIndexEntityActionExistsForEntity(string $action, string|int $entityId, string $message = ''): void
     {
-        // TODO : to implement
+        $message = '' === $message ? sprintf('The action %s has been found for entity id %s', $action, (string) $entityId) : $message;
+
+        $entityRow = $this->client->getCrawler()->filter(sprintf('tbody tr[data-id=%s]', (string) $entityId));
+        self::assertCount(1, $entityRow, sprintf('The entity %s is not existing in the table', (string) $entityId));
+
+        $action = $entityRow->first()->filter(sprintf('.action-%s', $action));
+        assertCount(0, $action, $message);
     }
 
     protected function assertGlobalActionExists(string $action): void
