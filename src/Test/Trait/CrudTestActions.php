@@ -23,6 +23,19 @@ trait CrudTestActions
         $this->client->click($action->link());
     }
 
+	protected function selectAllRecordOnPage(): void
+	{
+		// TODO : to implement
+	}
+
+	/**
+	 * @param array<array-key, int|string> $recordsId
+	 */
+	protected function selectRecordsOnPage(array $recordsId): void
+	{
+		// TODO : to implement
+	}
+
     /**
      * @param array<array-key, string> $entityIds
      */
@@ -45,4 +58,9 @@ trait CrudTestActions
     {
         // TODO : to implement
     }
+
+	protected function click(\DOMElement $element): void
+	{
+
+	}
 }
