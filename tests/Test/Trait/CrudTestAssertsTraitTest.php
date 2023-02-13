@@ -11,7 +11,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Test\Trait\CrudTestAsserts;
 use EasyCorp\Bundle\EasyAdminBundle\Test\Trait\CrudTestUrlGeneration;
 use EasyCorp\Bundle\EasyAdminBundle\Tests\TestApplication\Config\Action as TestAppAction;
 use EasyCorp\Bundle\EasyAdminBundle\Tests\TestApplication\Controller\CategoryCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Tests\TestApplication\Controller\DashboardController;
 use EasyCorp\Bundle\EasyAdminBundle\Tests\TestApplication\Controller\SecureDashboardController;
 use EasyCorp\Bundle\EasyAdminBundle\Tests\TestApplication\Entity\Category;
 use PHPUnit\Framework\AssertionFailedError;
@@ -241,5 +240,80 @@ final class CrudTestAssertsTraitTest extends WebTestCase
 
 		self::assertGlobalActionNotDisplays(Action::NEW, "New Category");
 		self::assertGlobalActionNotDisplays(TestAppAction::CUSTOM_ACTION,"incorrectCustomAction");
+	}
+
+	/**
+	 * @dataProvider existingColumns
+	 */
+	public function testAssertIndexColumnExists(string $columnName): void
+	{
+		$this->client->request('GET', $this->generateIndexUrl());
+
+		self::assertIndexColumnExists($columnName);
+	}
+
+	public function testAssertIndexIncorrectColumnExistsRaisesError(): void
+	{
+		$this->client->request('GET', $this->generateIndexUrl());
+
+		self::expectException(AssertionFailedError::class);
+		self::assertIndexColumnExists("ID");
+
+		self::expectException(AssertionFailedError::class);
+		self::assertIndexColumnExists("delete");
+	}
+
+	public function testAssertIndexColumnNotExists(): void
+	{
+		$this->client->request('GET', $this->generateIndexUrl());
+
+		self::assertIndexColumnNotExists("ID");
+		self::assertIndexColumnNotExists("IncorrectColumnID");
+	}
+
+	/**
+	 * @dataProvider existingColumns
+	 */
+	public function testAssertIndexCorrectColumnNotExistsRaisesError(string $columnName): void
+	{
+		$this->client->request('GET', $this->generateIndexUrl());
+
+		self::expectException(AssertionFailedError::class);
+		self::assertIndexColumnNotExists($columnName);
+	}
+
+	public function existingColumns(): \Generator
+	{
+		yield ['id'];
+		yield ['name'];
+		yield ['slug'];
+		yield ['active'];
+	}
+
+	/**
+	 * @dataProvider existingColumnsDisplayValues
+	 */
+	public function testAssertColumnHeaderContains(string $columnName, string $displayValue): void
+	{
+		$this->client->request('GET', $this->generateIndexUrl());
+
+		self::assertColumnHeaderContains($columnName, $displayValue);
+	}
+
+	public function testAssertColumnHeaderContainsIncorrectValueRaisesError(): void
+	{
+		$this->client->request('GET', $this->generateIndexUrl());
+
+		self::expectException(AssertionFailedError::class);
+		self::assertColumnHeaderContains("id", "id");
+		self::assertColumnHeaderContains("id", "another value");
+	}
+
+	public function existingColumnsDisplayValues(): \Generator
+	{
+		yield ['id', "ID"];
+		yield ['name', "Name"];
+		yield ['slug', "Slug"];
+		yield ['active', "Active"];
 	}
 }

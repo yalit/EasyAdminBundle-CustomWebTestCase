@@ -25,4 +25,19 @@ trait CrudTestHelpersTrait
     {
         return '.global-actions '.$this->getActionSelector($action);
     }
+
+	protected function getIndexHeaderColumnSelector(string $columnName): string
+	{
+		return $this->getIndexHeaderRowSelector()." ".$this->getIndexColumnSelector($columnName);
+	}
+	
+	protected function getIndexHeaderRowSelector(): string
+	{
+		return 'thead tr';
+	}
+
+	protected function getIndexColumnSelector(string $columnName): string
+	{
+		return sprintf('th[data-column="%s"]', $columnName);
+	}
 }

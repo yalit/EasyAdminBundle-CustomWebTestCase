@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EasyCorp\Bundle\EasyAdminBundle\Test\Trait;
 
 // TODO : implement TODOs
+use http\Message;
 use function PHPUnit\Framework\assertCount;
 
 trait CrudTestAsserts
@@ -100,6 +101,7 @@ trait CrudTestAsserts
         self::assertSelectorTextNotContains($this->getIndexEntityActionSelector($action, $entityId), $actionDisplay, $message);
     }
 
+	//TODO : add messages to the 4 below functions
     protected function assertGlobalActionExists(string $action): void
     {
         self::assertSelectorExists($this->getGlobalActionSelector($action));
@@ -120,19 +122,22 @@ trait CrudTestAsserts
         self::assertSelectorTextNotContains($this->getGlobalActionSelector($action), $actionDisplay);
     }
 
-    protected function assertColumnExists(string $columnName): void
+    protected function assertIndexColumnExists(string $columnName, string $message = ''): void
     {
-        // TODO : to implement
+		$message = $message === '' ? sprintf("The column %s is not existing", $columnName) : $message;
+	    self::assertSelectorExists($this->getIndexHeaderColumnSelector($columnName));
     }
 
-    protected function assertNotColumnExists(string $columnName): void
+    protected function assertIndexColumnNotExists(string $columnName, string $message = ''): void
     {
-        // TODO : to implement
+	    $message = $message === '' ? sprintf("The column %s is existing", $columnName) : $message;
+	    self::assertSelectorNotExists($this->getIndexHeaderColumnSelector($columnName));
     }
 
-    protected function assertColumnHeaderContains(string $columnName, string $columnHeaderValue): void
+    protected function assertColumnHeaderContains(string $columnName, string $columnHeaderValue, string $message = ''): void
     {
-        // TODO : to implement
+        $message = $message === '' ? sprintf("The column %s does not contain %s", $columnName, $columnHeaderValue) : $message;
+		self::assertSelectorTextSame($this->getIndexHeaderColumnSelector($columnName), $columnHeaderValue);
     }
 
     protected function assertNotColumnHeaderContains(string $columnName, string $columnHeaderValue): void
