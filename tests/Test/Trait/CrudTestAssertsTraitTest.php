@@ -144,18 +144,18 @@ final class CrudTestAssertsTraitTest extends WebTestCase
     public function testAssertIndexEntityActionExistsForEntity(): void
     {
         $this->client->request('GET', $this->generateIndexUrl());
-        $this->assertIndexEntityActionExistsForEntity(Action::EDIT, 1);
-        $this->assertIndexEntityActionExistsForEntity(Action::DELETE, 1);
+        $this->assertIndexEntityActionExists(Action::EDIT, 1);
+        $this->assertIndexEntityActionExists(Action::DELETE, 1);
     }
 
     public function testAssertIndexEntityIncorrectActionExistsForEntityRaisesError(): void
     {
         $this->client->request('GET', $this->generateIndexUrl());
         self::expectException(AssertionFailedError::class);
-        $this->assertIndexEntityActionExistsForEntity(Action::INDEX, 1);
+        $this->assertIndexEntityActionExists(Action::INDEX, 1);
 
         self::expectException(AssertionFailedError::class);
-        $this->assertIndexEntityActionExistsForEntity('IncorrectAction', 1);
+        $this->assertIndexEntityActionExists('IncorrectAction', 1);
     }
 
     public function testAssertIndexIncorrectEntityActionExistsForEntityRaisesError(): void
@@ -163,24 +163,24 @@ final class CrudTestAssertsTraitTest extends WebTestCase
         $this->client->request('GET', $this->generateIndexUrl());
 
         self::expectException(AssertionFailedError::class);
-        $this->assertIndexEntityActionExistsForEntity(Action::EDIT, 0);
+        $this->assertIndexEntityActionExists(Action::EDIT, 0);
     }
 
     public function testAssertNotIndexEntityActionExistsForEntity(): void
     {
         $this->client->request('GET', $this->generateIndexUrl());
-        $this->assertNotIndexEntityActionExistsForEntity(Action::INDEX, 1);
-        $this->assertNotIndexEntityActionExistsForEntity('IncorrectAction', 1);
+        $this->assertNotIndexEntityActionExists(Action::INDEX, 1);
+        $this->assertNotIndexEntityActionExists('IncorrectAction', 1);
     }
 
     public function testAssertNotIndexEntityIncorrectActionExistsForEntityRaisesError(): void
     {
         $this->client->request('GET', $this->generateIndexUrl());
         self::expectException(AssertionFailedError::class);
-        $this->assertNotIndexEntityActionExistsForEntity(Action::EDIT, 1);
+        $this->assertNotIndexEntityActionExists(Action::EDIT, 1);
 
         self::expectException(AssertionFailedError::class);
-        $this->assertNotIndexEntityActionExistsForEntity(Action::DELETE, 1);
+        $this->assertNotIndexEntityActionExists(Action::DELETE, 1);
     }
 
     public function testAssertNotIndexIncorrectEntityActionExistsForEntityRaisesError(): void
@@ -188,6 +188,24 @@ final class CrudTestAssertsTraitTest extends WebTestCase
         $this->client->request('GET', $this->generateIndexUrl());
 
         self::expectException(AssertionFailedError::class);
-        $this->assertNotIndexEntityActionExistsForEntity(Action::INDEX, 0);
+        $this->assertNotIndexEntityActionExists(Action::INDEX, 0);
     }
+
+	public function testAssertIndexEntityActionTextSame(): void
+	{
+		$this->client->request('GET', $this->generateIndexUrl());
+
+		self::assertIndexEntityActionTextSame(Action::EDIT, 'Edit', 1);
+		self::assertIndexEntityActionTextSame(Action::DELETE, 'Delete', 1);
+	}
+
+	public function testAssertIndexEntityActionNotTextSame(): void
+	{
+		$this->client->request('GET', $this->generateIndexUrl());
+
+		self::assertIndexEntityActionNotTextSame(Action::EDIT, 'edit', 1);
+		self::assertIndexEntityActionNotTextSame(Action::EDIT, 'something-else', 1);
+		self::assertIndexEntityActionNotTextSame(Action::DELETE, 'delete', 1);
+		self::assertIndexEntityActionNotTextSame(Action::DELETE, 'anything', 1);
+	}
 }
