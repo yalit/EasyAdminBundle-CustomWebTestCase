@@ -139,9 +139,10 @@ trait CrudTestAsserts
         self::assertSelectorTextSame($this->getIndexHeaderColumnSelector($columnName), $columnHeaderValue);
     }
 
-    protected function assertNotColumnHeaderContains(string $columnName, string $columnHeaderValue): void
+    protected function assertNotColumnHeaderContains(string $columnName, string $columnHeaderValue, string $message = ''): void
     {
-        // TODO : to implement
+        $message = '' === $message ? sprintf('The column %s contains %s', $columnName, $columnHeaderValue) : $message;
+        self::assertSelectorTextNotContains($this->getIndexHeaderColumnSelector($columnName), $columnHeaderValue);
     }
 
     protected function assertFormFieldExists(string $fieldName): void

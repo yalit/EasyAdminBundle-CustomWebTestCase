@@ -363,4 +363,23 @@ final class CrudTestAssertsTraitTest extends WebTestCase
         yield ['slug', 'Slug'];
         yield ['active', 'Active'];
     }
+
+    public function testAssertColumnHeaderNotContains(): void
+    {
+        $this->client->request('GET', $this->generateIndexUrl());
+
+        self::assertNotColumnHeaderContains('id', 'id');
+        self::assertNotColumnHeaderContains('id', 'incorrect Value');
+    }
+
+    /**
+     * @dataProvider existingColumnsDisplayValues
+     */
+    public function testAssertColumnHeaderNotContainsCorrectValueRaisesError(string $columnName, string $displayValue): void
+    {
+        $this->client->request('GET', $this->generateIndexUrl());
+
+        self::expectException(AssertionFailedError::class);
+        self::assertNotColumnHeaderContains($columnName, $displayValue);
+    }
 }
