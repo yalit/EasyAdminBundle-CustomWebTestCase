@@ -192,128 +192,175 @@ final class CrudTestAssertsTraitTest extends WebTestCase
         $this->assertNotIndexEntityActionExists(Action::INDEX, 0);
     }
 
-	public function testAssertIndexEntityActionTextSame(): void
-	{
-		$this->client->request('GET', $this->generateIndexUrl());
+    public function testAssertIndexEntityActionTextSame(): void
+    {
+        $this->client->request('GET', $this->generateIndexUrl());
 
-		self::assertIndexEntityActionTextSame(Action::EDIT, 'Edit', 1);
-		self::assertIndexEntityActionTextSame(Action::DELETE, 'Delete', 1);
-	}
+        self::assertIndexEntityActionTextSame(Action::EDIT, 'Edit', 1);
+        self::assertIndexEntityActionTextSame(Action::DELETE, 'Delete', 1);
+    }
 
-	public function testAssertIndexEntityActionNotTextSame(): void
-	{
-		$this->client->request('GET', $this->generateIndexUrl());
+    public function testAssertIndexEntityActionNotTextSame(): void
+    {
+        $this->client->request('GET', $this->generateIndexUrl());
 
-		self::assertIndexEntityActionNotTextSame(Action::EDIT, 'edit', 1);
-		self::assertIndexEntityActionNotTextSame(Action::EDIT, 'something-else', 1);
-		self::assertIndexEntityActionNotTextSame(Action::DELETE, 'delete', 1);
-		self::assertIndexEntityActionNotTextSame(Action::DELETE, 'anything', 1);
-	}
+        self::assertIndexEntityActionNotTextSame(Action::EDIT, 'edit', 1);
+        self::assertIndexEntityActionNotTextSame(Action::EDIT, 'something-else', 1);
+        self::assertIndexEntityActionNotTextSame(Action::DELETE, 'delete', 1);
+        self::assertIndexEntityActionNotTextSame(Action::DELETE, 'anything', 1);
+    }
 
-	public function testAssertGlobalActionExists(): void
-	{
-		$this->client->request('GET', $this->generateIndexUrl());
+    public function testAssertGlobalActionExists(): void
+    {
+        $this->client->request('GET', $this->generateIndexUrl());
 
-		self::assertGlobalActionExists(Action::NEW);
-		self::assertGlobalActionExists( TestAppAction::CUSTOM_ACTION);
-	}
+        self::assertGlobalActionExists(Action::NEW);
+        self::assertGlobalActionExists(TestAppAction::CUSTOM_ACTION);
+    }
 
-	public function testAssertGlobalActionNotExists(): void
-	{
-		$this->client->request('GET', $this->generateIndexUrl());
+    public function testAssertGlobalActionExistsIncorrectNameRaisesError(): void
+    {
+        $this->client->request('GET', $this->generateIndexUrl());
 
-		self::assertGlobalActionNotExists(Action::EDIT);
-		self::assertGlobalActionNotExists( "incorrectCustomAction");
-	}
+        self::expectException(AssertionFailedError::class);
+        self::assertGlobalActionExists(Action::EDIT);
 
-	public function testAssertGlobalActionDisplays(): void
-	{
-		$this->client->request('GET', $this->generateIndexUrl());
+        self::expectException(AssertionFailedError::class);
+        self::assertGlobalActionExists(TestAppAction::CUSTOM_ACTION);
+    }
 
-		self::assertGlobalActionDisplays(Action::NEW, "Add Category");
-		self::assertGlobalActionDisplays( TestAppAction::CUSTOM_ACTION, "Custom Action");
-	}
+    public function testAssertGlobalActionNotExists(): void
+    {
+        $this->client->request('GET', $this->generateIndexUrl());
 
-	public function testAssertGlobalActionNotDisplays(): void
-	{
-		$this->client->request('GET', $this->generateIndexUrl());
+        self::assertGlobalActionNotExists(Action::EDIT);
+        self::assertGlobalActionNotExists('incorrectCustomAction');
+    }
 
-		self::assertGlobalActionNotDisplays(Action::NEW, "New Category");
-		self::assertGlobalActionNotDisplays(TestAppAction::CUSTOM_ACTION,"incorrectCustomAction");
-	}
+    public function testAssertGlobalActionNotExistsCorrectActionRaisesError(): void
+    {
+        $this->client->request('GET', $this->generateIndexUrl());
 
-	/**
-	 * @dataProvider existingColumns
-	 */
-	public function testAssertIndexColumnExists(string $columnName): void
-	{
-		$this->client->request('GET', $this->generateIndexUrl());
+        self::expectException(AssertionFailedError::class);
+        self::assertGlobalActionNotExists(Action::NEW);
 
-		self::assertIndexColumnExists($columnName);
-	}
+        self::expectException(AssertionFailedError::class);
+        self::assertGlobalActionNotExists(TestAppAction::CUSTOM_ACTION);
+    }
 
-	public function testAssertIndexIncorrectColumnExistsRaisesError(): void
-	{
-		$this->client->request('GET', $this->generateIndexUrl());
+    public function testAssertGlobalActionDisplays(): void
+    {
+        $this->client->request('GET', $this->generateIndexUrl());
 
-		self::expectException(AssertionFailedError::class);
-		self::assertIndexColumnExists("ID");
+        self::assertGlobalActionDisplays(Action::NEW, 'Add Category');
+        self::assertGlobalActionDisplays(TestAppAction::CUSTOM_ACTION, 'Custom Action');
+    }
 
-		self::expectException(AssertionFailedError::class);
-		self::assertIndexColumnExists("delete");
-	}
+    public function testAssertGlobalActionDisplaysIncorrectValuesRaisesError(): void
+    {
+        $this->client->request('GET', $this->generateIndexUrl());
 
-	public function testAssertIndexColumnNotExists(): void
-	{
-		$this->client->request('GET', $this->generateIndexUrl());
+        self::expectException(AssertionFailedError::class);
+        self::assertGlobalActionDisplays(Action::NEW, 'add Category');
 
-		self::assertIndexColumnNotExists("ID");
-		self::assertIndexColumnNotExists("IncorrectColumnID");
-	}
+        self::expectException(AssertionFailedError::class);
+        self::assertGlobalActionDisplays(Action::NEW, 'Incorrect value');
 
-	/**
-	 * @dataProvider existingColumns
-	 */
-	public function testAssertIndexCorrectColumnNotExistsRaisesError(string $columnName): void
-	{
-		$this->client->request('GET', $this->generateIndexUrl());
+        self::expectException(AssertionFailedError::class);
+        self::assertGlobalActionDisplays(TestAppAction::CUSTOM_ACTION, 'custom Action');
+    }
 
-		self::expectException(AssertionFailedError::class);
-		self::assertIndexColumnNotExists($columnName);
-	}
+    public function testAssertGlobalActionNotDisplays(): void
+    {
+        $this->client->request('GET', $this->generateIndexUrl());
 
-	public function existingColumns(): \Generator
-	{
-		yield ['id'];
-		yield ['name'];
-		yield ['slug'];
-		yield ['active'];
-	}
+        self::assertGlobalActionNotDisplays(Action::NEW, 'New Category');
+        self::assertGlobalActionNotDisplays(TestAppAction::CUSTOM_ACTION, 'incorrectCustomAction');
+    }
 
-	/**
-	 * @dataProvider existingColumnsDisplayValues
-	 */
-	public function testAssertColumnHeaderContains(string $columnName, string $displayValue): void
-	{
-		$this->client->request('GET', $this->generateIndexUrl());
+    public function testAssertGlobalActionNotDisplaysCorrectValueRaisesError(): void
+    {
+        $this->client->request('GET', $this->generateIndexUrl());
 
-		self::assertColumnHeaderContains($columnName, $displayValue);
-	}
+        self::expectException(AssertionFailedError::class);
+        self::assertGlobalActionNotDisplays(Action::NEW, 'Add Category');
 
-	public function testAssertColumnHeaderContainsIncorrectValueRaisesError(): void
-	{
-		$this->client->request('GET', $this->generateIndexUrl());
+        self::expectException(AssertionFailedError::class);
+        self::assertGlobalActionNotDisplays(TestAppAction::CUSTOM_ACTION, 'Custom Action');
+    }
 
-		self::expectException(AssertionFailedError::class);
-		self::assertColumnHeaderContains("id", "id");
-		self::assertColumnHeaderContains("id", "another value");
-	}
+    /**
+     * @dataProvider existingColumns
+     */
+    public function testAssertIndexColumnExists(string $columnName): void
+    {
+        $this->client->request('GET', $this->generateIndexUrl());
 
-	public function existingColumnsDisplayValues(): \Generator
-	{
-		yield ['id', "ID"];
-		yield ['name', "Name"];
-		yield ['slug', "Slug"];
-		yield ['active', "Active"];
-	}
+        self::assertIndexColumnExists($columnName);
+    }
+
+    public function testAssertIndexIncorrectColumnExistsRaisesError(): void
+    {
+        $this->client->request('GET', $this->generateIndexUrl());
+
+        self::expectException(AssertionFailedError::class);
+        self::assertIndexColumnExists('ID');
+
+        self::expectException(AssertionFailedError::class);
+        self::assertIndexColumnExists('delete');
+    }
+
+    public function testAssertIndexColumnNotExists(): void
+    {
+        $this->client->request('GET', $this->generateIndexUrl());
+
+        self::assertIndexColumnNotExists('ID');
+        self::assertIndexColumnNotExists('IncorrectColumnID');
+    }
+
+    /**
+     * @dataProvider existingColumns
+     */
+    public function testAssertIndexCorrectColumnNotExistsRaisesError(string $columnName): void
+    {
+        $this->client->request('GET', $this->generateIndexUrl());
+
+        self::expectException(AssertionFailedError::class);
+        self::assertIndexColumnNotExists($columnName);
+    }
+
+    public function existingColumns(): \Generator
+    {
+        yield ['id'];
+        yield ['name'];
+        yield ['slug'];
+        yield ['active'];
+    }
+
+    /**
+     * @dataProvider existingColumnsDisplayValues
+     */
+    public function testAssertColumnHeaderContains(string $columnName, string $displayValue): void
+    {
+        $this->client->request('GET', $this->generateIndexUrl());
+
+        self::assertColumnHeaderContains($columnName, $displayValue);
+    }
+
+    public function testAssertColumnHeaderContainsIncorrectValueRaisesError(): void
+    {
+        $this->client->request('GET', $this->generateIndexUrl());
+
+        self::expectException(AssertionFailedError::class);
+        self::assertColumnHeaderContains('id', 'id');
+        self::assertColumnHeaderContains('id', 'another value');
+    }
+
+    public function existingColumnsDisplayValues(): \Generator
+    {
+        yield ['id', 'ID'];
+        yield ['name', 'Name'];
+        yield ['slug', 'Slug'];
+        yield ['active', 'Active'];
+    }
 }
