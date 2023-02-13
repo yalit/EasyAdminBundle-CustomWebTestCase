@@ -9,8 +9,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Test\Trait\CrudTestAsserts;
 use EasyCorp\Bundle\EasyAdminBundle\Test\Trait\CrudTestUrlGeneration;
+use EasyCorp\Bundle\EasyAdminBundle\Tests\TestApplication\Config\Action as TestAppAction;
 use EasyCorp\Bundle\EasyAdminBundle\Tests\TestApplication\Controller\CategoryCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Tests\TestApplication\Controller\DashboardController;
+use EasyCorp\Bundle\EasyAdminBundle\Tests\TestApplication\Controller\SecureDashboardController;
 use EasyCorp\Bundle\EasyAdminBundle\Tests\TestApplication\Entity\Category;
 use PHPUnit\Framework\AssertionFailedError;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -49,7 +51,7 @@ final class CrudTestAssertsTraitTest extends WebTestCase
      */
     protected function getDashboardFqcn(): string
     {
-        return DashboardController::class;
+        return SecureDashboardController::class;
     }
 
     public function testAssertFullEntityIndexCount(): void
@@ -207,5 +209,37 @@ final class CrudTestAssertsTraitTest extends WebTestCase
 		self::assertIndexEntityActionNotTextSame(Action::EDIT, 'something-else', 1);
 		self::assertIndexEntityActionNotTextSame(Action::DELETE, 'delete', 1);
 		self::assertIndexEntityActionNotTextSame(Action::DELETE, 'anything', 1);
+	}
+
+	public function testAssertGlobalActionExists(): void
+	{
+		$this->client->request('GET', $this->generateIndexUrl());
+
+		self::assertGlobalActionExists(Action::NEW);
+		self::assertGlobalActionExists( TestAppAction::CUSTOM_ACTION);
+	}
+
+	public function testAssertGlobalActionNotExists(): void
+	{
+		$this->client->request('GET', $this->generateIndexUrl());
+
+		self::assertGlobalActionNotExists(Action::EDIT);
+		self::assertGlobalActionNotExists( "incorrectCustomAction");
+	}
+
+	public function testAssertGlobalActionDisplays(): void
+	{
+		$this->client->request('GET', $this->generateIndexUrl());
+
+		self::assertGlobalActionDisplays(Action::NEW, "Add Category");
+		self::assertGlobalActionDisplays( TestAppAction::CUSTOM_ACTION, "Custom Action");
+	}
+
+	public function testAssertGlobalActionNotDisplays(): void
+	{
+		$this->client->request('GET', $this->generateIndexUrl());
+
+		self::assertGlobalActionNotDisplays(Action::NEW, "New Category");
+		self::assertGlobalActionNotDisplays(TestAppAction::CUSTOM_ACTION,"incorrectCustomAction");
 	}
 }

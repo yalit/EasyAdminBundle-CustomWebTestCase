@@ -9,7 +9,7 @@ use function PHPUnit\Framework\assertCount;
 
 trait CrudTestAsserts
 {
-	use CrudTestHelpersTrait;
+    use CrudTestHelpersTrait;
 
     protected static function assertIndexFullEntityCount(int $expectedIndexFullEntityCount, string $message = ''): void
     {
@@ -66,10 +66,10 @@ trait CrudTestAsserts
     {
         $message = '' === $message ? sprintf('The action %s has not been found for entity id %s', $action, (string) $entityId) : $message;
 
-	    $entityRow = $this->client->getCrawler()->filter($this->getIndexEntityRowSelector($entityId));
+        $entityRow = $this->client->getCrawler()->filter($this->getIndexEntityRowSelector($entityId));
         self::assertCount(1, $entityRow, sprintf('The entity %s is not existing in the table', (string) $entityId));
 
-	    $action = $entityRow->first()->filter($this->getActionSelector($action));
+        $action = $entityRow->first()->filter($this->getActionSelector($action));
         assertCount(1, $action, $message);
     }
 
@@ -84,41 +84,41 @@ trait CrudTestAsserts
         assertCount(0, $action, $message);
     }
 
-	protected function assertIndexEntityActionTextSame(string $action, string $actionDisplay, string|int $entityId, string $message = ''): void
-	{
-		$this->assertIndexEntityActionExists($action, $entityId);
+    protected function assertIndexEntityActionTextSame(string $action, string $actionDisplay, string|int $entityId, string $message = ''): void
+    {
+        $this->assertIndexEntityActionExists($action, $entityId);
 
-		$message = $message === '' ? sprintf("The action %s is not labelled with the following text : %s", $action, $actionDisplay) : $message;
-		self::assertSelectorTextSame($this->getIndexEntityActionSelector($action, $entityId), $actionDisplay, $message);
-	}
+        $message = '' === $message ? sprintf('The action %s is not labelled with the following text : %s', $action, $actionDisplay) : $message;
+        self::assertSelectorTextSame($this->getIndexEntityActionSelector($action, $entityId), $actionDisplay, $message);
+    }
 
-	protected function assertIndexEntityActionNotTextSame(string $action, string $actionDisplay, string|int $entityId, string $message = ''): void
-	{
-		$this->assertIndexEntityActionExists($action, $entityId);
+    protected function assertIndexEntityActionNotTextSame(string $action, string $actionDisplay, string|int $entityId, string $message = ''): void
+    {
+        $this->assertIndexEntityActionExists($action, $entityId);
 
-		$message = $message === '' ? sprintf("The action %s is labelled with the following text : %s", $action, $actionDisplay) : $message;
-		self::assertSelectorTextNotContains($this->getIndexEntityActionSelector($action, $entityId), $actionDisplay, $message);
-	}
+        $message = '' === $message ? sprintf('The action %s is labelled with the following text : %s', $action, $actionDisplay) : $message;
+        self::assertSelectorTextNotContains($this->getIndexEntityActionSelector($action, $entityId), $actionDisplay, $message);
+    }
 
     protected function assertGlobalActionExists(string $action): void
     {
         self::assertSelectorExists($this->getGlobalActionSelector($action));
     }
 
-    protected function assertNotGlobalActionExists(string $action): void
+    protected function assertGlobalActionNotExists(string $action): void
     {
-	    self::assertSelectorNotExists($this->getGlobalActionSelector($action));
+        self::assertSelectorNotExists($this->getGlobalActionSelector($action));
     }
 
-	protected function assertGlobalActionDisplays(string $action, string $actionDisplay): void
-	{
-		self::assertSelectorTextSame($actionDisplay, $this->getGlobalActionSelector($action));
-	}
+    protected function assertGlobalActionDisplays(string $action, string $actionDisplay): void
+    {
+        self::assertSelectorTextSame($this->getGlobalActionSelector($action), $actionDisplay);
+    }
 
-	protected function assertGlobalActionNotDisplays(string $action, string $actionDisplay): void
-	{
-		self::assertSelectorTextNotContains($actionDisplay, $this->getGlobalActionSelector($action));
-	}
+    protected function assertGlobalActionNotDisplays(string $action, string $actionDisplay): void
+    {
+        self::assertSelectorTextNotContains($this->getGlobalActionSelector($action), $actionDisplay);
+    }
 
     protected function assertColumnExists(string $columnName): void
     {
@@ -140,43 +140,43 @@ trait CrudTestAsserts
         // TODO : to implement
     }
 
-	protected function assertFormFieldExists(string $fieldName): void
-	{
-		//TODO : to implement
-	}
+    protected function assertFormFieldExists(string $fieldName): void
+    {
+        // TODO : to implement
+    }
 
-	protected function assertFormFieldNotExists(string $fieldName): void
-	{
-		//TODO : to implement
-	}
+    protected function assertFormFieldNotExists(string $fieldName): void
+    {
+        // TODO : to implement
+    }
 
-	protected function assertFormFieldHasLabel(string $fieldName, string $label): void
-	{
-		//TODO : to implement
-	}
+    protected function assertFormFieldHasLabel(string $fieldName, string $label): void
+    {
+        // TODO : to implement
+    }
 
-	protected function assertFormFieldNotHasLabel(string $fieldName, string $label): void
-	{
-		//TODO : to implement
-	}
+    protected function assertFormFieldNotHasLabel(string $fieldName, string $label): void
+    {
+        // TODO : to implement
+    }
 
-	protected function assertFormFieldHasValue(string $fieldName, string|int|bool $value): void
-	{
-		//TODO : to implement
-	}
+    protected function assertFormFieldHasValue(string $fieldName, string|int|bool $value): void
+    {
+        // TODO : to implement
+    }
 
-	protected function assertFormFieldNotHasValue(string $fieldName, string|int|bool $value): void
-	{
-		//TODO : to implement
-	}
+    protected function assertFormFieldNotHasValue(string $fieldName, string|int|bool $value): void
+    {
+        // TODO : to implement
+    }
 
-	protected function assertFormFieldIsDisplayed(string $fieldName): void
-	{
-		//TODO : to implement
-	}
+    protected function assertFormFieldIsDisplayed(string $fieldName): void
+    {
+        // TODO : to implement
+    }
 
-	protected function assertFormFieldIsHidden(string $fieldName): void
-	{
-		//TODO : to implement
-	}
+    protected function assertFormFieldIsHidden(string $fieldName): void
+    {
+        // TODO : to implement
+    }
 }
