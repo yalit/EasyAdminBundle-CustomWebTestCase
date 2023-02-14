@@ -7,7 +7,7 @@ namespace EasyCorp\Bundle\EasyAdminBundle\Test\Trait;
 // TODO : implement TODOs
 use function PHPUnit\Framework\assertCount;
 
-trait CrudTestAsserts
+trait CrudTestIndexAsserts
 {
     use CrudTestHelpersTrait;
 
@@ -143,45 +143,5 @@ trait CrudTestAsserts
     {
         $message = '' === $message ? sprintf('The column %s contains %s', $columnName, $columnHeaderValue) : $message;
         self::assertSelectorTextNotContains($this->getIndexHeaderColumnSelector($columnName), $columnHeaderValue);
-    }
-
-    protected function assertFormFieldExists(string $fieldName): void
-    {
-        // TODO : to implement
-    }
-
-    protected function assertFormFieldNotExists(string $fieldName): void
-    {
-        // TODO : to implement
-    }
-
-    protected function assertFormFieldHasLabel(string $fieldName, string $label): void
-    {
-        // TODO : to implement
-    }
-
-    protected function assertFormFieldNotHasLabel(string $fieldName, string $label): void
-    {
-        // TODO : to implement
-    }
-
-    protected function assertFormFieldHasValue(string $fieldName, string|int|bool $value): void
-    {
-        // TODO : to implement
-    }
-
-    protected function assertFormFieldNotHasValue(string $fieldName, string|int|bool $value): void
-    {
-        // TODO : to implement
-    }
-
-    protected function assertFormFieldIsDisplayed(string $fieldName): void
-    {
-        // TODO : to implement
-    }
-
-    protected function assertFormFieldIsHidden(string $fieldName): void
-    {
-        // TODO : to implement
     }
 }

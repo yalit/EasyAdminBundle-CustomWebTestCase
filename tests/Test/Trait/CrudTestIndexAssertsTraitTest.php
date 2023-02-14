@@ -7,7 +7,7 @@ namespace EasyCorp\Bundle\EasyAdminBundle\Tests\Test\Trait;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
-use EasyCorp\Bundle\EasyAdminBundle\Test\Trait\CrudTestAsserts;
+use EasyCorp\Bundle\EasyAdminBundle\Test\Trait\CrudTestIndexAsserts;
 use EasyCorp\Bundle\EasyAdminBundle\Test\Trait\CrudTestUrlGeneration;
 use EasyCorp\Bundle\EasyAdminBundle\Tests\TestApplication\Config\Action as TestAppAction;
 use EasyCorp\Bundle\EasyAdminBundle\Tests\TestApplication\Controller\CategoryCrudController;
@@ -17,9 +17,9 @@ use PHPUnit\Framework\AssertionFailedError;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-final class CrudTestAssertsTraitTest extends WebTestCase
+final class CrudTestIndexAssertsTraitTest extends WebTestCase
 {
-    use CrudTestAsserts;
+    use CrudTestIndexAsserts;
     use CrudTestUrlGeneration;
 
     protected KernelBrowser $client;
