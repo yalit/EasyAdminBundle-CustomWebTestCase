@@ -68,7 +68,7 @@ final class CrudTestIndexAssertsTraitTest extends WebTestCase
         $this->expectException(AssertionFailedError::class);
 
         $allCategories = $this->entityManager->getRepository(Category::class)->findAll();
-        self::assertIndexFullEntityCount($this->count($allCategories) + 1);
+        self::assertIndexFullEntityCount(\count($allCategories) + 1);
     }
 
     public function testAssertZeroFullEntityIndexCountRaisesError(): void

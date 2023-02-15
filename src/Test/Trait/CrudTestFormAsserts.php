@@ -11,23 +11,23 @@ trait CrudTestFormAsserts
 {
     use CrudTestHelpersTrait;
 
-    protected function assertFormFieldExists(string $fieldName, string $message = ''): void
+    protected function assertFormFieldExists(string $fieldName, ?string $message = null): void
     {
-        $message = '' === $message ? sprintf('The field %s is not existing in the form', $fieldName) : $message;
+        $message ??= sprintf('The field %s is not existing in the form', $fieldName);
 
         self::assertSelectorExists($this->getFormFieldSelector($fieldName), $message);
     }
 
-    protected function assertFormFieldNotExists(string $fieldName, string $message = ''): void
+    protected function assertFormFieldNotExists(string $fieldName, ?string $message = null): void
     {
-        $message = '' === $message ? sprintf('The field %s is existing in the form', $fieldName) : $message;
+        $message ??= sprintf('The field %s is existing in the form', $fieldName);
 
         self::assertSelectorNotExists($this->getFormFieldSelector($fieldName), $message);
     }
 
-    protected function assertFormFieldHasLabel(string $fieldName, string $label, string $message = ''): void
+    protected function assertFormFieldHasLabel(string $fieldName, string $label, ?string $message = null): void
     {
-        $message = '' === $message ? sprintf('The field %s has not the correct label %s', $fieldName, $label) : $message;
+        $message ??= sprintf('The field %s has not the correct label %s', $fieldName, $label);
 
         self::assertSelectorExists(
             $this->getFormFieldLabelSelector($fieldName),
@@ -36,9 +36,9 @@ trait CrudTestFormAsserts
         self::assertSelectorTextSame($this->getFormFieldLabelSelector($fieldName), $label, $message);
     }
 
-    protected function assertFormFieldNotHasLabel(string $fieldName, string $label, string $message = ''): void
+    protected function assertFormFieldNotHasLabel(string $fieldName, string $label, ?string $message = null): void
     {
-        $message = '' === $message ? sprintf('The field %s has the label %s', $fieldName, $label) : $message;
+        $message ??= sprintf('The field %s has the label %s', $fieldName, $label);
 
         self::assertSelectorExists(
             $this->getFormFieldLabelSelector($fieldName),
