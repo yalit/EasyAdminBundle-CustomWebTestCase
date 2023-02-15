@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace EasyCorp\Bundle\EasyAdminBundle\Test\Trait;
 
+use PHPUnit\Framework\Constraint\LogicalNot;
+use Symfony\Component\DomCrawler\Test\Constraint\CrawlerSelectorTextSame;
+
 trait CrudTestFormAsserts
 {
+    use CrudTestHelpersTrait;
+
     protected function assertFormFieldExists(string $fieldName, string $message = ''): void
     {
         $message = '' === $message ? sprintf('The field %s is not existing in the form', $fieldName) : $message;
@@ -20,45 +25,30 @@ trait CrudTestFormAsserts
         self::assertSelectorNotExists($this->getFormFieldSelector($fieldName), $message);
     }
 
-    protected function assertFormFieldHasLabel(string $fieldName, string $label): void
+    protected function assertFormFieldHasLabel(string $fieldName, string $label, string $message = ''): void
     {
-        // TODO : to implement
+        $message = '' === $message ? sprintf('The field %s has not the correct label %s', $fieldName, $label) : $message;
+
+        self::assertSelectorExists(
+            $this->getFormFieldLabelSelector($fieldName),
+            sprintf('There is no label for the field %s', $fieldName)
+        );
+        self::assertSelectorTextSame($this->getFormFieldLabelSelector($fieldName), $label, $message);
     }
 
-    protected function assertFormFieldNotHasLabel(string $fieldName, string $label): void
+    protected function assertFormFieldNotHasLabel(string $fieldName, string $label, string $message = ''): void
     {
-        // TODO : to implement
-    }
+        $message = '' === $message ? sprintf('The field %s has the label %s', $fieldName, $label) : $message;
 
-    protected function assertFormFieldHasValue(string $fieldName, string|int|bool $value): void
-    {
-        // TODO : to implement
-    }
+        self::assertSelectorExists(
+            $this->getFormFieldLabelSelector($fieldName),
+            sprintf('There is no label for the field %s', $fieldName)
+        );
 
-    protected function assertFormFieldNotHasValue(string $fieldName, string|int|bool $value): void
-    {
-        // TODO : to implement
-    }
-
-    protected function assertFormFieldIsDisplayed(string $fieldName): void
-    {
-        // TODO : to implement
-    }
-
-    protected function assertFormFieldIsHidden(string $fieldName): void
-    {
-        // TODO : to implement
-    }
-
-    protected function getFormEntity(): string
-    {
-        $form = $this->client->getCrawler()->filter('form[method="post"]');
-
-        return $form->attr('name');
-    }
-
-    protected function getFormFieldSelector(string $fieldName): string
-    {
-        return sprintf('form[method="post"] #%s_%s', $this->getFormEntity(), $fieldName);
+        self::assertThat(
+            $this->client->getCrawler(),
+            new LogicalNot(new CrawlerSelectorTextSame($this->getFormFieldLabelSelector($fieldName), $label)),
+            $message
+        );
     }
 }

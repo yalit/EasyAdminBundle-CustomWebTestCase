@@ -73,7 +73,7 @@ trait CrudTestIndexAsserts
         assertCount(1, $action, $message);
     }
 
-    protected function assertNotIndexEntityActionExists(string $action, string|int $entityId, string $message = ''): void
+    protected function assertIndexEntityActionNotExists(string $action, string|int $entityId, string $message = ''): void
     {
         $message = '' === $message ? sprintf('The action %s has been found for entity id %s', $action, (string) $entityId) : $message;
 
@@ -133,13 +133,13 @@ trait CrudTestIndexAsserts
         self::assertSelectorNotExists($this->getIndexHeaderColumnSelector($columnName));
     }
 
-    protected function assertColumnHeaderContains(string $columnName, string $columnHeaderValue, string $message = ''): void
+    protected function assertIndexColumnHeaderContains(string $columnName, string $columnHeaderValue, string $message = ''): void
     {
         $message = '' === $message ? sprintf('The column %s does not contain %s', $columnName, $columnHeaderValue) : $message;
         self::assertSelectorTextSame($this->getIndexHeaderColumnSelector($columnName), $columnHeaderValue);
     }
 
-    protected function assertNotColumnHeaderContains(string $columnName, string $columnHeaderValue, string $message = ''): void
+    protected function assertIndexColumnHeaderNotContains(string $columnName, string $columnHeaderValue, string $message = ''): void
     {
         $message = '' === $message ? sprintf('The column %s contains %s', $columnName, $columnHeaderValue) : $message;
         self::assertSelectorTextNotContains($this->getIndexHeaderColumnSelector($columnName), $columnHeaderValue);

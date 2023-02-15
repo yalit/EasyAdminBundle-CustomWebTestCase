@@ -170,18 +170,18 @@ final class CrudTestIndexAssertsTraitTest extends WebTestCase
     public function testAssertNotIndexEntityActionExistsForEntity(): void
     {
         $this->client->request('GET', $this->generateIndexUrl());
-        $this->assertNotIndexEntityActionExists(Action::INDEX, 1);
-        $this->assertNotIndexEntityActionExists('IncorrectAction', 1);
+        $this->assertIndexEntityActionNotExists(Action::INDEX, 1);
+        $this->assertIndexEntityActionNotExists('IncorrectAction', 1);
     }
 
     public function testAssertNotIndexEntityIncorrectActionExistsForEntityRaisesError(): void
     {
         $this->client->request('GET', $this->generateIndexUrl());
         self::expectException(AssertionFailedError::class);
-        $this->assertNotIndexEntityActionExists(Action::EDIT, 1);
+        $this->assertIndexEntityActionNotExists(Action::EDIT, 1);
 
         self::expectException(AssertionFailedError::class);
-        $this->assertNotIndexEntityActionExists(Action::DELETE, 1);
+        $this->assertIndexEntityActionNotExists(Action::DELETE, 1);
     }
 
     public function testAssertNotIndexIncorrectEntityActionExistsForEntityRaisesError(): void
@@ -189,7 +189,7 @@ final class CrudTestIndexAssertsTraitTest extends WebTestCase
         $this->client->request('GET', $this->generateIndexUrl());
 
         self::expectException(AssertionFailedError::class);
-        $this->assertNotIndexEntityActionExists(Action::INDEX, 0);
+        $this->assertIndexEntityActionNotExists(Action::INDEX, 0);
     }
 
     public function testAssertIndexEntityActionTextSame(): void
@@ -344,7 +344,7 @@ final class CrudTestIndexAssertsTraitTest extends WebTestCase
     {
         $this->client->request('GET', $this->generateIndexUrl());
 
-        self::assertColumnHeaderContains($columnName, $displayValue);
+        self::assertIndexColumnHeaderContains($columnName, $displayValue);
     }
 
     public function testAssertColumnHeaderContainsIncorrectValueRaisesError(): void
@@ -352,8 +352,8 @@ final class CrudTestIndexAssertsTraitTest extends WebTestCase
         $this->client->request('GET', $this->generateIndexUrl());
 
         self::expectException(AssertionFailedError::class);
-        self::assertColumnHeaderContains('id', 'id');
-        self::assertColumnHeaderContains('id', 'another value');
+        self::assertIndexColumnHeaderContains('id', 'id');
+        self::assertIndexColumnHeaderContains('id', 'another value');
     }
 
     public function existingColumnsDisplayValues(): \Generator
@@ -368,8 +368,8 @@ final class CrudTestIndexAssertsTraitTest extends WebTestCase
     {
         $this->client->request('GET', $this->generateIndexUrl());
 
-        self::assertNotColumnHeaderContains('id', 'id');
-        self::assertNotColumnHeaderContains('id', 'incorrect Value');
+        self::assertIndexColumnHeaderNotContains('id', 'id');
+        self::assertIndexColumnHeaderNotContains('id', 'incorrect Value');
     }
 
     /**
@@ -380,6 +380,6 @@ final class CrudTestIndexAssertsTraitTest extends WebTestCase
         $this->client->request('GET', $this->generateIndexUrl());
 
         self::expectException(AssertionFailedError::class);
-        self::assertNotColumnHeaderContains($columnName, $displayValue);
+        self::assertIndexColumnHeaderNotContains($columnName, $displayValue);
     }
 }

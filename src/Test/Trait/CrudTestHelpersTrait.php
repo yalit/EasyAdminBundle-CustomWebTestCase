@@ -28,7 +28,7 @@ trait CrudTestHelpersTrait
 
     protected function getIndexHeaderColumnSelector(string $columnName): string
     {
-        return $this->getIndexHeaderRowSelector().' '.$this->getIndexColumnSelector($columnName);
+        return $this->getIndexHeaderRowSelector().' '.$this->getIndexColumnSelector($columnName, 'header');
     }
 
     protected function getIndexHeaderRowSelector(): string
@@ -36,8 +36,40 @@ trait CrudTestHelpersTrait
         return 'thead tr';
     }
 
-    protected function getIndexColumnSelector(string $columnName): string
+    protected function getIndexColumnSelector(string $columnName, string $type = 'header'): string
     {
-        return sprintf('th[data-column="%s"]', $columnName);
+        $columnSelector = match ($type) {
+            'header' => 'th',
+            'data' => 'td'
+        };
+
+        return sprintf('%s[data-column="%s"]', $columnSelector, $columnName);
+    }
+
+    protected function getEntityFormSelector(): string
+    {
+        return 'form[method="post"]';
+    }
+
+    protected function getFormEntity(): string
+    {
+        $form = $this->client->getCrawler()->filter($this->getEntityFormSelector());
+
+        return $form->attr('name');
+    }
+
+    protected function getFormFieldIdValue(string $fieldName): string
+    {
+        return sprintf('%s_%s', $this->getFormEntity(), $fieldName);
+    }
+
+    protected function getFormFieldSelector(string $fieldName): string
+    {
+        return sprintf('%s #%s', $this->getEntityFormSelector(), $this->getFormFieldIdValue($fieldName));
+    }
+
+    protected function getFormFieldLabelSelector(string $fieldName): string
+    {
+        return sprintf('%s label[for="%s"]', $this->getEntityFormSelector(), $this->getFormFieldIdValue($fieldName));
     }
 }

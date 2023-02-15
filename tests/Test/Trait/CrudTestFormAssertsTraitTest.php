@@ -20,7 +20,6 @@ final class CrudTestFormAssertsTraitTest extends WebTestCase
     use CrudTestUrlGeneration;
 
     protected KernelBrowser $client;
-    protected AdminUrlGenerator $adminUrlGenerator;
     protected EntityManagerInterface $entityManager;
 
     protected function setUp(): void
@@ -30,7 +29,6 @@ final class CrudTestFormAssertsTraitTest extends WebTestCase
         $this->client->setServerParameters(['PHP_AUTH_USER' => 'admin', 'PHP_AUTH_PW' => '1234']);
 
         $container = static::getContainer();
-        $this->entityManager = $container->get(EntityManagerInterface::class);
         $this->adminUrlGenerator = $container->get(AdminUrlGenerator::class);
     }
 
@@ -51,7 +49,7 @@ final class CrudTestFormAssertsTraitTest extends WebTestCase
     }
 
     /**
-     * @dataProvider newFormFields
+     * @dataProvider formFields
      */
     public function testAssertFormFieldExists(string $fieldName): void
     {
@@ -61,7 +59,7 @@ final class CrudTestFormAssertsTraitTest extends WebTestCase
     }
 
     /**
-     * @dataProvider newFormUnknownFields
+     * @dataProvider formUnknownFields
      */
     public function testAssertFormFieldExistsWithNonExistingFieldRaisesError(string $fieldName): void
     {
@@ -72,7 +70,7 @@ final class CrudTestFormAssertsTraitTest extends WebTestCase
     }
 
     /**
-     * @dataProvider newFormUnknownFields
+     * @dataProvider formUnknownFields
      */
     public function testAssertFormFieldNotExists(string $fieldName): void
     {
@@ -82,7 +80,7 @@ final class CrudTestFormAssertsTraitTest extends WebTestCase
     }
 
     /**
-     * @dataProvider newFormFields
+     * @dataProvider formFields
      */
     public function testAssertFormFieldNotExistsWithExistingFieldsRaisesError(string $fieldName): void
     {
@@ -92,17 +90,90 @@ final class CrudTestFormAssertsTraitTest extends WebTestCase
         self::assertFormFieldNotExists($fieldName);
     }
 
-    public function newFormFields(): \Generator
+    public function formFields(): \Generator
     {
         yield ['name'];
         yield ['slug'];
         yield ['active'];
     }
 
-    public function newFormUnknownFields(): \Generator
+    public function formUnknownFields(): \Generator
     {
         yield ['id'];
         yield ['Technician'];
         yield ['unknown_field'];
+    }
+
+    /**
+     * @dataProvider formFieldsLabels
+     */
+    public function testAssertFormFieldHasLabel(string $fieldName, string $fieldLabel): void
+    {
+        $this->client->request('GET', self::generateNewFormUrl());
+
+        self::assertFormFieldHasLabel($fieldName, $fieldLabel);
+    }
+
+    /**
+     * @dataProvider formFieldsIncorrectLabels
+     */
+    public function testAssertFormFieldHasLabelWithIncorrectLabelsRaisesError(string $fieldName, string $fieldLabel): void
+    {
+        $this->client->request('GET', self::generateNewFormUrl());
+
+        self::expectException(AssertionFailedError::class);
+        self::assertFormFieldHasLabel($fieldName, $fieldLabel);
+    }
+
+    /**
+     * @dataProvider formIncorrectFieldsWithLabels
+     */
+    public function testAssertFormFieldHasLabelWithIncorrectFieldsRaisesError(string $fieldName, string $fieldLabel): void
+    {
+        $this->client->request('GET', self::generateNewFormUrl());
+
+        self::expectException(AssertionFailedError::class);
+        self::assertFormFieldHasLabel($fieldName, $fieldLabel);
+    }
+
+    /**
+     * @dataProvider formFieldsIncorrectLabels
+     */
+    public function testAssertFormFieldNotHasLabel(string $fieldName, string $fieldLabel): void
+    {
+        $this->client->request('GET', self::generateNewFormUrl());
+
+        self::assertFormFieldNotHasLabel($fieldName, $fieldLabel);
+    }
+
+    /**
+     * @dataProvider formFieldsLabels
+     */
+    public function testAssertFormFieldNotHasLabelCorrectLabelsRaisesError(string $fieldName, string $fieldLabel): void
+    {
+        $this->client->request('GET', self::generateNewFormUrl());
+
+        self::expectException(AssertionFailedError::class);
+        self::assertFormFieldNotHasLabel($fieldName, $fieldLabel);
+    }
+
+    public function formFieldsLabels(): \Generator
+    {
+        yield ['name', 'Name'];
+        yield ['slug', 'Slug'];
+        yield ['active', 'Active'];
+    }
+
+    public function formFieldsIncorrectLabels(): \Generator
+    {
+        yield ['name', 'name'];
+        yield ['slug', 'slug'];
+        yield ['active', 'active'];
+    }
+
+    public function formIncorrectFieldsWithLabels(): \Generator
+    {
+        yield ['incorrect_field', 'Name'];
+        yield ['incorrect_field', 'incorrect_value'];
     }
 }
