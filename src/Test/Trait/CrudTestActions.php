@@ -8,11 +8,6 @@ use function PHPUnit\Framework\assertCount;
 
 trait CrudTestActions
 {
-    protected function clickOnIndexEntityAction(string|int $entityId, string $action): void
-    {
-        $crawler = $this->client->getCrawler();
-    }
-
     protected function clickOnIndexGlobalAction(string $globalAction): void
     {
         $crawler = $this->client->getCrawler();
@@ -23,9 +18,14 @@ trait CrudTestActions
         $this->client->click($action->link());
     }
 
+	protected function clickOnIndexEntityAction(string|int $entityId, string $action): void
+	{
+		// TODO : to implement only if extending PantherTestCase
+	}
+
 	protected function selectAllRecordOnPage(): void
 	{
-		// TODO : to implement
+		// TODO : to implement only if extending PantherTestCase
 	}
 
 	/**
@@ -33,7 +33,7 @@ trait CrudTestActions
 	 */
 	protected function selectRecordsOnPage(array $recordsId): void
 	{
-		// TODO : to implement
+		// TODO : to implement only if extending PantherTestCase
 	}
 
     /**
@@ -41,26 +41,21 @@ trait CrudTestActions
      */
     protected function clickOnIndexBatchAction(string $batchAction, array $entityIds = []): void
     {
-        // TODO : to implement
+        // TODO : to implement only if extending PantherTestCase
     }
 
     protected function goToNextIndexPage(): void
     {
-        // TODO : to implement
+        // TODO : to implement only if extending PantherTestCase
     }
 
     protected function goToPreviousIndexPage(): void
     {
-        // TODO : to implement
+        // TODO : to implement only if extending PantherTestCase
     }
 
     protected function clickOnMenuItem(string $menuDisplayName): void
     {
-        // TODO : to implement
+        // TODO : to implement only if extending PantherTestCase
     }
-
-	protected function click(\DOMElement $element): void
-	{
-
-	}
 }
