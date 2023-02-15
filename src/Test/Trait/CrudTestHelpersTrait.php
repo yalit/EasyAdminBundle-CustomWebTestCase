@@ -40,7 +40,8 @@ trait CrudTestHelpersTrait
     {
         $columnSelector = match ($type) {
             'header' => 'th',
-            'data' => 'td'
+            'data' => 'td',
+            default => 'th'
         };
 
         return sprintf('%s[data-column="%s"]', $columnSelector, $columnName);
