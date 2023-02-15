@@ -15,9 +15,6 @@ class is based on specific traits which defines specific asserts and specific se
 4. `Actions`_
 5. `Selector Helpers`_
 
-.. TODO : description of the intent and objectives
-
-.. TODO : list
 
 Functional Test Case Example
 -------------------------------------------
