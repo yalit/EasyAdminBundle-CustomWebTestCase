@@ -17,45 +17,4 @@ trait CrudTestActions
 
         $this->client->click($action->link());
     }
-
-	protected function clickOnIndexEntityAction(string|int $entityId, string $action): void
-	{
-		// TODO : to implement only if extending PantherTestCase
-	}
-
-	protected function selectAllRecordOnPage(): void
-	{
-		// TODO : to implement only if extending PantherTestCase
-	}
-
-	/**
-	 * @param array<array-key, int|string> $recordsId
-	 */
-	protected function selectRecordsOnPage(array $recordsId): void
-	{
-		// TODO : to implement only if extending PantherTestCase
-	}
-
-    /**
-     * @param array<array-key, string> $entityIds
-     */
-    protected function clickOnIndexBatchAction(string $batchAction, array $entityIds = []): void
-    {
-        // TODO : to implement only if extending PantherTestCase
-    }
-
-    protected function goToNextIndexPage(): void
-    {
-        // TODO : to implement only if extending PantherTestCase
-    }
-
-    protected function goToPreviousIndexPage(): void
-    {
-        // TODO : to implement only if extending PantherTestCase
-    }
-
-    protected function clickOnMenuItem(string $menuDisplayName): void
-    {
-        // TODO : to implement only if extending PantherTestCase
-    }
 }
