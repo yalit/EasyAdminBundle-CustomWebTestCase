@@ -27,8 +27,8 @@ Table of Contents
     actions
     security
     events
-    upgrade
     tests
+    upgrade
 
 Technical Requirements
 ----------------------
