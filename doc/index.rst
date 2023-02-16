@@ -28,6 +28,7 @@ Table of Contents
     security
     events
     upgrade
+    tests
 
 Technical Requirements
 ----------------------
