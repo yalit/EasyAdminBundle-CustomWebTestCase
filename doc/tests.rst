@@ -87,8 +87,8 @@ Used by the `AbstractCrudTestCase`, are 2 traits filled with specific asserts fo
 
     The trait can, of course, be used on its own but in that case, the class that is using it needs :
 
-    - a class property :code:`client` : instance of :code:`Symfony\Bundle\FrameworkBundle\KernelBrowser`
-    - a class property :code:`entitytManager` : instance of :code:`Doctrine\ORM\EntityManagerInterface`
+    - a class property :code:`client` : instance of :code:`Symfony\\Bundle\\FrameworkBundle\\KernelBrowser`
+    - a class property :code:`entitytManager` : instance of :code:`Doctrine\\ORM\\EntityManagerInterface`
   
 
 CrudTestIndexAsserts
