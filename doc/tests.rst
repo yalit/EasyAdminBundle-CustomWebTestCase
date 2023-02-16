@@ -79,6 +79,7 @@ Here is the list of the url generation functions that are all providing url base
 Asserts
 ------------------------
 Used by the `AbstractCrudTestCase`, are 2 traits filled with specific asserts for EasyAdmin web testing:
+
 - :code:`CrudTestIndexAsserts`: providing asserts for the index page of EasyAdmin
 - :code:`CrudTestFormAsserts` : providing asserts for the form page of EasyAdmin
 
