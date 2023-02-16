@@ -145,8 +145,12 @@ final class CrudTestIndexAssertsTraitTest extends WebTestCase
     public function testAssertIndexEntityActionExistsForEntity(): void
     {
         $this->client->request('GET', $this->generateIndexUrl());
-        $this->assertIndexEntityActionExists(Action::EDIT, 1);
-        $this->assertIndexEntityActionExists(Action::DELETE, 1);
+
+        /** @var Category $category */
+        $category = $this->entityManager->getRepository(Category::class)->findBy([], ['id' => 'ASC'])[0];
+
+        $this->assertIndexEntityActionExists(Action::EDIT, $category->getId());
+        $this->assertIndexEntityActionExists(Action::DELETE, $category->getId());
     }
 
     public function testAssertIndexEntityIncorrectActionExistsForEntityRaisesError(): void
@@ -170,8 +174,12 @@ final class CrudTestIndexAssertsTraitTest extends WebTestCase
     public function testAssertNotIndexEntityActionExistsForEntity(): void
     {
         $this->client->request('GET', $this->generateIndexUrl());
-        $this->assertIndexEntityActionNotExists(Action::INDEX, 1);
-        $this->assertIndexEntityActionNotExists('IncorrectAction', 1);
+
+        /** @var Category $category */
+        $category = $this->entityManager->getRepository(Category::class)->findBy([], ['id' => 'ASC'])[0];
+
+        $this->assertIndexEntityActionNotExists(Action::INDEX, $category->getId());
+        $this->assertIndexEntityActionNotExists('IncorrectAction', $category->getId());
     }
 
     public function testAssertNotIndexEntityIncorrectActionExistsForEntityRaisesError(): void
@@ -196,18 +204,24 @@ final class CrudTestIndexAssertsTraitTest extends WebTestCase
     {
         $this->client->request('GET', $this->generateIndexUrl());
 
-        self::assertIndexEntityActionTextSame(Action::EDIT, 'Edit', 1);
-        self::assertIndexEntityActionTextSame(Action::DELETE, 'Delete', 1);
+        /** @var Category $category */
+        $category = $this->entityManager->getRepository(Category::class)->findBy([], ['id' => 'ASC'])[0];
+
+        self::assertIndexEntityActionTextSame(Action::EDIT, 'Edit', $category->getId());
+        self::assertIndexEntityActionTextSame(Action::DELETE, 'Delete', $category->getId());
     }
 
     public function testAssertIndexEntityActionNotTextSame(): void
     {
         $this->client->request('GET', $this->generateIndexUrl());
 
-        self::assertIndexEntityActionNotTextSame(Action::EDIT, 'edit', 1);
-        self::assertIndexEntityActionNotTextSame(Action::EDIT, 'something-else', 1);
-        self::assertIndexEntityActionNotTextSame(Action::DELETE, 'delete', 1);
-        self::assertIndexEntityActionNotTextSame(Action::DELETE, 'anything', 1);
+        /** @var Category $category */
+        $category = $this->entityManager->getRepository(Category::class)->findBy([], ['id' => 'ASC'])[0];
+
+        self::assertIndexEntityActionNotTextSame(Action::EDIT, 'edit', $category->getId());
+        self::assertIndexEntityActionNotTextSame(Action::EDIT, 'something-else', $category->getId());
+        self::assertIndexEntityActionNotTextSame(Action::DELETE, 'delete', $category->getId());
+        self::assertIndexEntityActionNotTextSame(Action::DELETE, 'anything', $category->getId());
     }
 
     public function testAssertGlobalActionExists(): void
