@@ -64,7 +64,7 @@ the EasyAdmin urls.
     The trait can, of course, be used on its own but in that case, the class that is using it need or:
 
     - to define the 2 functions :code:`getControllerFqcn` and :code:`getDashboardFqcn`
-    - to add the DashboardControllerFqcn and ControllerFQcn as input to the url generation functions
+    - to add the DashboardFqcn (class name) and ControllerFqcn (class name) as input to the url generation functions
 
 Here is the list of the url generation functions that are all providing url based on provided Dashboard 
 & Controller class names:
@@ -74,7 +74,7 @@ Here is the list of the url generation functions that are all providing url base
 - :code:`generateNewFormUrl` : generates the url for the New form page (based on the Dashboard and Controller defined)
 - :code:`generateEditFormUrl` : generates the url for the Edit form page of a specific entity (based on the Dashboard and Controller defined and the entity Id)
 - :code:`generateDetailUrl` : generates the url for the Detail page of a specific entity (based on the Dashboard and Controller defined and the entity Id)
-- `:code:generateFilterRenderUrl` : generates the url to get the rendering of the filters (based on the Dashboard and Controller defined)
+- :code:`generateFilterRenderUrl` : generates the url to get the rendering of the filters (based on the Dashboard and Controller defined)
 
 Asserts
 ------------------------
