@@ -56,7 +56,7 @@ First, your test class need to extend the class `AbstractCrudTestCase`.
 
 Url Generation
 ------------------------
-Used by the `AbstractCrudTestCase`, is an url generation trait which helps to generate the specific of
+Used by the :code:`AbstractCrudTestCase`, :code:`CrudTestUrlGeneration` is an url generation trait which helps to generate the specific of
 the EasyAdmin urls.
 
 .. note:: 
@@ -128,7 +128,7 @@ The following asserts are existing:
 
 Selector Helpers
 ------------------------
-Used by the Asserts to locate elements, this Trait is defining a specific amounts of selector helpers linked to the specificities of EasyAdmin layout. 
+Used by the Asserts to locate elements, the Trait :code:`CrudTestSelectors` is defining a specific amounts of selector helpers linked to the specificities of EasyAdmin layout. 
 
 .. note:: 
 
