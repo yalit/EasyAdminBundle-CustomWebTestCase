@@ -1,12 +1,12 @@
 Tests
 ======
 
-As EasyAdmin is part, functionally testing the admin pages can leverage the
-`Symfony functional testing workflow`_ extending the `WebTestCase` class.
+As EasyAdmin is based on Symfony, functionally testing the admin pages can leverage the
+`Symfony functional testing workflow`_ extending the :code:`WebTestCase` class.
 
-As EasyAdmin provides already defined ways of displaying the data in its Crud pages,
-a specific custom function test class has been provided : `AbstractCrudTestCase`. The
-class is based on specific traits which defines specific asserts and specific selector helpers.
+But, as EasyAdmin uses specific defined ways of displaying the data in its Crud pages,
+a custom test class is provided : :code:`AbstractCrudTestCase`. The
+class is based on traits which defines custom asserts and custom helpers.
 
 
 1. `Functional Test Case Example`_
@@ -19,10 +19,10 @@ Functional Test Case Example
 -------------------------------------------
 
 Suppose you have a `Dashboard`_ named :code:`App\\Controller\\Admin\\AppDashboardController` and
-a `Category Controller`_ named :code:`App\\Controller\\Admin\\CategoryCrudController`. Here's an
-example of a function test class for that Controller.
+a `Category Crud Controller`_ named :code:`App\\Controller\\Admin\\CategoryCrudController`. Here's an
+example of a functional test class for that Controller.
 
-First, your test class need to extend the class `AbstractCrudTestCase`.  
+First, your test class need to extend the :code:`AbstractCrudTestCase`.  
 
 .. code-block:: php
 
@@ -61,7 +61,7 @@ the EasyAdmin urls.
 
 .. note:: 
 
-    The trait can, of course, be used on its own but in that case, the class that is using it need or:
+    The trait can, of course, be used on its own but in that case, the class that is using it needs either:
 
     - to define the 2 functions :code:`getControllerFqcn` and :code:`getDashboardFqcn`
     - to add the DashboardFqcn (class name) and ControllerFqcn (class name) as input to the url generation functions
@@ -85,7 +85,7 @@ Used by the `AbstractCrudTestCase`, are 2 traits filled with specific asserts fo
 
 .. note:: 
 
-    The trait can, of course, be used on its own but in that case, the class that is using it needs :
+    The trait can, of course, be used on its own but in that case, the class that is using it needs both:
 
     - a class property :code:`client` : instance of :code:`Symfony\\Bundle\\FrameworkBundle\\KernelBrowser`
     - a class property :code:`entitytManager` : instance of :code:`Doctrine\\ORM\\EntityManagerInterface`
@@ -153,4 +153,4 @@ The following helpers are existing:
 
 .. _`Symfony functional testing workflow`: https://symfony.com/doc/current/testing.html#application-tests
 .. _Dashboard: https://symfony.com/bundles/EasyAdminBundle/4.x/dashboards.html
-.. _Category Controller: https://symfony.com/bundles/EasyAdminBundle/4.x/crud.html
+.. _`Category Crud Controller`: https://symfony.com/bundles/EasyAdminBundle/4.x/crud.html
